@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+/* Base font size adjustments for readability */
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Custom animations */
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -11,4 +23,39 @@
 
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button, a, input, select {
+    min-height: 44px;
+  }
+}
+
+/* Custom scrollbar for mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
 }

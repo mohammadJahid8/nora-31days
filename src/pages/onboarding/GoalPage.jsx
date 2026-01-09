@@ -9,6 +9,8 @@ const GoalPage = () => {
   const handleSetView = (view) => {
     if (view === 'accord') {
       navigate('/onboarding/accord');
+    } else if (view === 'season') {
+      navigate('/onboarding/season');
     }
   };
 

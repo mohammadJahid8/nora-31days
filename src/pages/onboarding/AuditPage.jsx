@@ -17,6 +17,8 @@ const AuditPage = () => {
   const handleSetView = (view) => {
     if (view === 'dashboard') {
       navigate('/dashboard');
+    } else if (view === 'blueprint') {
+      navigate('/onboarding/blueprint');
     }
   };
 

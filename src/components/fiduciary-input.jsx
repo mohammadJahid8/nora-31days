@@ -18,15 +18,15 @@ const FiduciaryInput = ({
   return (
     <div className='space-y-2 w-full'>
       <div className='flex justify-between items-center'>
-        <label className='text-xs md:text-sm tracking-[0.2em] uppercase text-[#D4AF37]/60 font-black block'>
+        <label className='text-sm md:text-base tracking-[0.15em] md:tracking-[0.2em] uppercase text-[#D4AF37]/70 font-bold block'>
           {label}
         </label>
         {DOCTORATE_LOGIC[label] && onLogic && (
           <button
             onClick={() => onLogic(label)}
-            className='text-[#D4AF37]/40 hover:text-[#D4AF37] transition-colors'
+            className='text-[#D4AF37]/40 hover:text-[#D4AF37] transition-colors p-1'
           >
-            <Info size={14} className='md:w-4 md:h-4' />
+            <Info size={16} className='md:w-5 md:h-5' />
           </button>
         )}
       </div>
@@ -38,7 +38,7 @@ const FiduciaryInput = ({
           onChange(e.target.value);
         }}
         placeholder={placeholder}
-        className={`w-full bg-transparent border-b border-[#D4AF37]/20 py-2 md:py-3 text-white focus:border-[#D4AF37] transition-all font-medium text-base md:text-lg placeholder:text-white/5 ${
+        className={`w-full bg-transparent border-b-2 border-[#D4AF37]/20 py-3 md:py-4 text-white focus:border-[#D4AF37] transition-all font-medium text-lg md:text-xl placeholder:text-white/10 ${
           fiduciary ? 'font-mono' : ''
         }`}
       />

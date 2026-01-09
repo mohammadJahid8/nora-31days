@@ -242,6 +242,7 @@ const Dashboard = ({
       {/* SIDEBAR */}
       <Sidebar
         sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         setGlobalSearch={setGlobalSearch}
@@ -267,7 +268,7 @@ const Dashboard = ({
           setView={setView}
         />
 
-        <div className='flex-1 overflow-y-auto p-12 lg:p-20 space-y-20 custom-scrollbar'>
+        <div className='flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 xl:p-16 space-y-8 md:space-y-12 lg:space-y-16 custom-scrollbar'>
           {renderTabContent()}
         </div>
       </main>

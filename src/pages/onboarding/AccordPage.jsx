@@ -9,6 +9,8 @@ const AccordPage = () => {
   const handleSetView = (view) => {
     if (view === 'blueprint') {
       navigate('/onboarding/blueprint');
+    } else if (view === 'goal') {
+      navigate('/onboarding/goal');
     }
   };
 

@@ -91,6 +91,9 @@ const DashboardPage = () => {
     // Computed
     institutionalDelta,
     dominionRank,
+
+    // Auth
+    logout,
   } = useApp();
 
   // Sync URL tab param with activeTab state
@@ -112,8 +115,9 @@ const DashboardPage = () => {
     navigate(`/dashboard/${newTab}`, { replace: true });
   };
 
-  const handleSetView = (view) => {
+  const handleSetView = async (view) => {
     if (view === 'auth') {
+      await logout();
       navigate('/auth');
     }
   };

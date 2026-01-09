@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
@@ -12,6 +19,7 @@ import {
   signInAnonymously,
   signInWithCustomToken,
   onAuthStateChanged,
+  signOut,
 } from 'firebase/auth';
 import { COUNCIL_PERSONAS, ACCORDS } from '../utils/data';
 
@@ -430,6 +438,30 @@ export const AppProvider = ({ children }) => {
     setShowGeneratorOverlay(true);
   };
 
+  // Logout function - signs out from Firebase and resets all state
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      // Reset all state to initial values
+      setProfile(initialProfile);
+      setProtocol({ currentDay: 1, sealedDays: [], velocityScore: 0 });
+      setChatMessages([]);
+      setHabakkukTargets([]);
+      setAiAnalysis(null);
+      setMorningBriefing(null);
+      setAuthName('');
+      setAuthEmail('');
+      setActiveTab('canvas');
+      setGlobalSearch('');
+      setLogicLabel(null);
+      setArchitects([]);
+      setSelectedArchitect(null);
+      setAdminDirective('');
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+  };
+
   // --- EFFECTS ---
   useEffect(() => {
     if (!user) return;
@@ -455,7 +487,13 @@ export const AppProvider = ({ children }) => {
         msg: `Systems Nominal. Current Protocol Velocity: ${protocol.velocityScore}. Continue sealing mandates.`,
       });
     }
-  }, [user, institutionalDelta, fundingReadiness, profile.name, protocol.velocityScore]);
+  }, [
+    user,
+    institutionalDelta,
+    fundingReadiness,
+    profile.name,
+    protocol.velocityScore,
+  ]);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -629,10 +667,10 @@ export const AppProvider = ({ children }) => {
 
     // Handlers
     handleGenerator,
+    logout,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export default AppContext;
-

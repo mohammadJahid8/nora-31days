@@ -4,11 +4,14 @@ import SeasonSelection from '../../components/season-selection';
 
 const SeasonPage = () => {
   const navigate = useNavigate();
-  const { updateRegistry } = useApp();
+  const { updateRegistry, logout } = useApp();
 
-  const handleSetView = (view) => {
+  const handleSetView = async (view) => {
     if (view === 'goal') {
       navigate('/onboarding/goal');
+    } else if (view === 'auth') {
+      await logout();
+      navigate('/auth');
     }
   };
 

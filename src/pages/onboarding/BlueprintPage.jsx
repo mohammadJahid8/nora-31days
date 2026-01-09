@@ -9,6 +9,8 @@ const BlueprintPage = () => {
   const handleSetView = (view) => {
     if (view === 'fiduciary-audit') {
       navigate('/onboarding/audit');
+    } else if (view === 'accord') {
+      navigate('/onboarding/accord');
     }
   };
 

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import Loading from '../components/loading';
 
 // Check if user has completed onboarding
@@ -20,16 +20,17 @@ const useOnboardingStatus = () => {
   return { loading: false, completedOnboarding };
 };
 
-// Protected route that requires authentication
+// Protected route that requires authentication (user has completed auth form)
 export const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useApp();
+  const { user, loading, profile } = useApp();
   const location = useLocation();
 
   if (loading) {
     return <Loading />;
   }
 
-  if (!user) {
+  // User must exist AND have completed the auth form (has name)
+  if (!user || !profile.name) {
     return <Navigate to='/auth' state={{ from: location }} replace />;
   }
 
@@ -38,7 +39,7 @@ export const ProtectedRoute = ({ children }) => {
 
 // Route that requires completed onboarding
 export const OnboardedRoute = ({ children }) => {
-  const { user, loading } = useApp();
+  const { user, loading, profile } = useApp();
   const { completedOnboarding } = useOnboardingStatus();
   const location = useLocation();
 
@@ -46,13 +47,19 @@ export const OnboardedRoute = ({ children }) => {
     return <Loading />;
   }
 
-  if (!user) {
+  // User must exist AND have completed auth form
+  if (!user || !profile.name) {
     return <Navigate to='/auth' state={{ from: location }} replace />;
   }
 
   if (!completedOnboarding) {
-    // Redirect to the appropriate onboarding step
-    return <Navigate to='/onboarding/season' replace />;
+    // Redirect to the appropriate onboarding step based on progress
+    if (!profile.season) return <Navigate to='/onboarding/season' replace />;
+    if (!profile.goal) return <Navigate to='/onboarding/goal' replace />;
+    if (!profile.accord) return <Navigate to='/onboarding/accord' replace />;
+    if (!profile.blueprint)
+      return <Navigate to='/onboarding/blueprint' replace />;
+    return <Navigate to='/onboarding/audit' replace />;
   }
 
   return children;
@@ -67,7 +74,8 @@ export const OnboardingRoute = ({ children, requiredStep }) => {
     return <Loading />;
   }
 
-  if (!user) {
+  // User must exist AND have completed auth form (has name)
+  if (!user || !profile.name) {
     return <Navigate to='/auth' state={{ from: location }} replace />;
   }
 
@@ -118,8 +126,9 @@ export const AuthRoute = ({ children }) => {
     return <Loading />;
   }
 
-  // If user is authenticated
-  if (user && profile.name) {
+  // Only redirect if user has actually completed auth (has name in profile)
+  // Firebase signs in anonymously, so user will exist but profile.name won't
+  if (user && profile.name && profile.email) {
     // Check if onboarding is complete
     const completedOnboarding = Boolean(
       profile.season && profile.goal && profile.accord && profile.blueprint

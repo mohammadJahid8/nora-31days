@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context/useApp';
 import FiduciaryAudit from '../../components/fiduciary-audit';
 
 const AuditPage = () => {

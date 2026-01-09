@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { createContext, useState, useEffect, useMemo, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
@@ -45,14 +38,6 @@ const appId =
 const AI_SYSTEM_PROMPT = `You are the Lead Fiduciary Architect for Nora Capital Group. Respond with absolute authority. NO ITALICS. Use doctorate-level terminology. Focus on capital acquisition, bridge funding timelines, and documentation preparedness.`;
 
 const AppContext = createContext(null);
-
-export const useApp = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useApp must be used within an AppProvider');
-  }
-  return context;
-};
 
 const initialProfile = {
   name: '',

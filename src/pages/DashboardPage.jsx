@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import Dashboard from '../components/dashboard';
 
 const DashboardPage = () => {
@@ -96,23 +96,24 @@ const DashboardPage = () => {
     logout,
   } = useApp();
 
-  // Sync URL tab param with activeTab state
+  // Sync URL tab param with activeTab state - only on initial mount or URL change
   useEffect(() => {
-    if (tab && tab !== activeTab) {
-      const validTabs = [
-        'canvas', 'profile', 'bridge', 'wealth', 'protocol',
-        'horizon', 'armory', 'academy', 'council', 'admin', 'commonwealth'
-      ];
-      if (validTabs.includes(tab)) {
-        setActiveTab(tab);
-      }
+    const validTabs = [
+      'canvas', 'profile', 'bridge', 'wealth', 'protocol',
+      'horizon', 'armory', 'academy', 'council', 'admin', 'commonwealth'
+    ];
+    if (tab && validTabs.includes(tab)) {
+      setActiveTab(tab);
     }
-  }, [tab, activeTab, setActiveTab]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]); // Only depend on tab URL param, not activeTab
 
   // Custom setActiveTab that also updates URL
   const handleSetActiveTab = (newTab) => {
-    setActiveTab(newTab);
-    navigate(`/dashboard/${newTab}`, { replace: true });
+    if (newTab !== activeTab) {
+      setActiveTab(newTab);
+      navigate(`/dashboard/${newTab}`, { replace: true });
+    }
   };
 
   const handleSetView = async (view) => {

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import Auth from '../components/auth';
 
 const AuthPage = () => {
@@ -16,12 +16,13 @@ const AuthPage = () => {
     profile,
   } = useApp();
 
-  const handleSetView = async (view) => {
+  const handleSetView = (view) => {
     if (view === 'season') {
+      // New enrollment - go to first onboarding step
       navigate('/onboarding/season');
     } else if (view === 'dashboard') {
-      // For returning stewards, check their onboarding status
-      // and redirect to the appropriate step or dashboard
+      // Returning user - check their onboarding status from current profile
+      // Note: profile might have been updated via Firestore snapshot
       if (!profile.season) {
         navigate('/onboarding/season');
       } else if (!profile.goal) {
@@ -54,4 +55,3 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
-

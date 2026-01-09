@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context/useApp';
 import BlueprintSelection from '../../components/blueprint-selection';
 
 const BlueprintPage = () => {
